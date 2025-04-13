@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
-from flask wtf import FlaskForm
-from wtform import StringField, PasswordField, SubmitField, validators
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length
 
 from flask_sqlalchemy import SQLAlchemy
@@ -15,13 +14,17 @@ app = Flask(__name__)
 app.secret_key = "my secret key"  # Required for flash messages
 
 # Configure the MySQL database connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:badman2001@localhost/waste'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:badman2001@localhost/waste'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #scret key
-app.config['SECRET KEY']= "my secret key"
+app.config['SECRET_KEY']= "my secret key"
 
 # Initialize the database
 db = SQLAlchemy(app)
+
+# Create the database tables (run this once)
+with app.app_context():
+    db.create_all()
 
 # Define the user model
 class User(db.Model, UserMixin):
@@ -29,16 +32,16 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    def __init__(self):
+    def __init__(self, username, password, email):
         self.username = username
+        self.password = password
         self.email = email
 
-# Create the database tables (run this once)
-with app.app_context():
-    db.create_all()
+
 
 @app.route('/')
 def home():
@@ -50,19 +53,19 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-        record = cursor.fetchone()
-        if record:
-            session['logged_in'] = True
-            session['username'] = username
-
-        # Authenticate the user
+        # Authenticate the user using SQLAlchemy
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
-            return render_template('login.html', username=user.username)
+            session['logged_in'] = True
+            session['username'] = user.username
+            flash("Login successful!", "success")
+            # Redirect to a protected route or home page
+            return redirect(url_for('home'))
         else:
             flash("Invalid credentials. Please try again.", "error")
             return redirect(url_for('login'))
+        
+    return render_template('login.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -85,7 +88,7 @@ def signup():
         db.session.commit()
 
         flash("Signup successful! Please log in.", "success")
-        return redirect(url_for('signup'))
+        return redirect(url_for('login'))
 
     return render_template('signup.html')
 
@@ -104,4 +107,4 @@ def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     flash("You have been logged out.", "success")
-    return redirect(url_for('login.html'))
+    return redirect(url_for('login'))
