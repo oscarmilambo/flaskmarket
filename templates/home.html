@@ -7,17 +7,9 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <h1>Waste Management Learning System</h1>
-            <ul class="nav-links">
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-            </ul>
-        </div>
-    </nav>
+    <img src="{{ url_for('static', filename='media/marabo logo.webp') }}" alt="logo.webp" class="logo">
     <div class="welcome-section">
-        <h2>Welcome to the Waste Management Learning System</h2>
+        <h2>Welcome to the Marabo Waste Enterprise</h2>
         <p>Learn how to manage waste effectively and contribute to a cleaner environment.</p>
         <div class="cta-buttons">
             <a href="{{ url_for('login') }}" class="btn">Login</a>

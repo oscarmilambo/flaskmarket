@@ -3,51 +3,26 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background-color: #f1b5ad;
 }
 
-.navbar {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-}
-
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar h1 {
-    margin: 0;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links li {
-    display: inline;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.nav-links a:hover {
-    text-decoration: underline;
+.logo {
+    position: absolute;
+    top: 20px; /* Adjust the top position as needed */
+    left: 20px; /* Centers the logo horizontally */
+    max-width: 60px; /* Adjust the size of the logo */
+    height: auto; /* Maintains the aspect ratio */
+    margin-bottom: 20px; /* Adds spacing below the logo */
+    z-index: 10;
 }
 
 .welcome-section {
     text-align: center;
     margin: 50px auto;
     padding: 20px;
+    background: linear-gradient(to bottom, #f1b5ad, #f7e3d7);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .welcome-section h2 {
@@ -68,15 +43,15 @@ body {
     display: inline-block;
     padding: 10px 20px;
     margin: 5px;
-    background-color: #28a745;
-    color: white;
+    background-color: #555;
+    color: #555;
     text-decoration: none;
     border-radius: 5px;
     font-size: 1rem;
 }
 
 .cta-buttons .btn:hover {
-    background-color: #218838;
+    background-color: #555;
 }
 
 
@@ -128,7 +103,7 @@ body {
 button {
     width: 100%;
     padding: 10px;
-    background-color: #28a745;
+    background-color: #555;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -137,7 +112,7 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #555;
 }
 
 /* css for signup form */
@@ -177,8 +152,8 @@ button:hover {
 .signup-form button {
     width: 100%;
     padding: 10px;
-    background-color: #28a745;
-    color: white;
+    background-color: #555;
+    color: #555;
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -186,7 +161,7 @@ button:hover {
 }
 
 .signup-form button:hover {
-    background-color: #218838;
+    background-color: #555;
 }
 
 .flash-messages {

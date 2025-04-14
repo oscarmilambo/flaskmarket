@@ -14,7 +14,7 @@ app = Flask(__name__)
 # Configure the MySQL database connection
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:badman2001@localhost/waste'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#scret key
+#secret key
 app.config['SECRET_KEY']= "my secret key"
 
 # Initialize the database
@@ -95,7 +95,7 @@ def submit():
         name = request.form.get('name')
         email = request.form.get('email')
         password = request.form.get('password')
-        flash(f"Form submitted! Name: {name}, Email: {email}","successs")
+        flash(f"Form submitted! Name: {name}, Email: {email}","success")
         return redirect(url_for('home'))
 
 
