@@ -5,13 +5,11 @@ from wtforms.validators import DataRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import session
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from flask_login import current_user, login_manager
 import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = "my secret key"  # Required for flash messages
 
 # Configure the MySQL database connection
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:badman2001@localhost/waste'
@@ -32,15 +30,14 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    def __init__(self, username, password, email):
+    def __init__(self, username, email, password):
         self.username = username
-        self.password = password
         self.email = email
-
+        self.password = password
 
 
 @app.route('/')
@@ -49,7 +46,6 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    msg=''
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -65,25 +61,26 @@ def login():
             flash("Invalid credentials. Please try again.", "error")
             return redirect(url_for('login'))
         
-    return render_template('login.html')
+    return render_template('home.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         username = request.form.get('username')
+        email = request.form.get('email')
         password = request.form.get('password')
 
         # Check if the username or email already exists
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
         if existing_user:
-            flash("Username already exists. Please choose another.", "error")
+            flash("Username or email already exists. Please choose another.", "error")
             return redirect(url_for('signup'))
 
         # Hash the password before saving
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
         # Add the new user to the database
-        new_user = User(username=username, password=hashed_password)
+        new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -96,15 +93,19 @@ def signup():
 def submit():
     if request.method == 'POST':
         name = request.form.get('name')
+        email = request.form.get('email')
         password = request.form.get('password')
-        return f"Form submitted! Name: {name},"
+        flash(f"Form submitted! Name: {name}, Email: {email}","successs")
+        return redirect(url_for('home'))
 
-if __name__ == '__main__':
-    app.run(debug=True)
-    
+
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     flash("You have been logged out.", "success")
     return redirect(url_for('login'))
+    
+if __name__ == '__main__':
+    app.run(debug=True)
+    
