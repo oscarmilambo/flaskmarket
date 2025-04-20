@@ -1,39 +1,47 @@
-from flask import Blueprint, request, redirect, url_for, flash
-from . import auth_bp, db
-from .models import User  # Assuming SQLAlchemy
+from flask import render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash
+from auth import auth
+from models.user import db, User
 
-signup_bp = Blueprint('signup', __name__)
-
-@signup_bp.route('/signup', methods=['POST'])
+@auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        # Get form data
-        name = request.form.get('name')
+        # Retrieve form data
+        full_name = request.form.get('fullName')
         email = request.form.get('email')
         phone = request.form.get('phone')
-        password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256')
-        location = request.form.get('location')  # Kalingalinga, Kanyama, etc.
-        language = request.form.get('language')  # English, Bemba, Nyanja
-        
-        #check if user exists
-        if User.query.filter_by(email=email).first():
-            flash('Email already exists!')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirmPassword')
+        province = request.form.get('province')
+        district = request.form.get('district')
+        community = request.form.get('community')
+        user_type = request.form.get('userType')
+        preferred_language = request.form.get('preferredLanguage')
+
+        # Validate form data
+        if password != confirm_password:
+            flash('Passwords do not match!', 'error')
             return redirect(url_for('auth.signup'))
-    
-    # Create new user
-    new_user = User(
-        name=name,
-        email=email,
-        phone=phone,
-        password=generate_password_hash(password),
-        location=location,
-        language=language
-    )
-    db.session.add(new_user)
-    db.session.commit()
 
-    flash(f'Account created for {name}!','success')
-    return redirect(url_for('auth.login'))
+        # Hash the password
+        hashed_password = generate_password_hash(password, method='sha256')
+
+        # Save user to the database
+        new_user = User(
+            full_name=full_name,
+            email=email,
+            phone=phone,
+            password=hashed_password,
+            province=province,
+            district=district,
+            community=community,
+            user_type=user_type,
+            preferred_language=preferred_language
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('Registration successful!', 'success')
+        return redirect(url_for('auth.signup'))
+
     return render_template('signup.html')
-

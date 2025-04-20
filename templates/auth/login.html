@@ -3,25 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Waste Management Learning System</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Login | Waste Management Learning System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 </head>
 <body>
     <div class="login-container">
-        <form action="{{ url_for('login') }}" method="POST">
-            <h1>Waste Management Learning System</h1>
-            <h2>Login</h2>
+        <header>
+            <h1>Welcome Back</h1>
+            <p>Log in to access waste management resources.</p>
+        </header>
+
+        <!-- Flash messages (for errors/success) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form id="login-form" action="{{ url_for('auth.login') }}" method="POST">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
             </div>
+
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+
+            <div class="form-footer">
+                <button type="submit" class="btn-login">Log In</button>
+                <p class="text-center">
+                    <a href="{{ url_for('auth.signup') }}">Create an account</a> |
+                    <a href="#" id="ussd-login-link">Log in via USSD</a>
+                </p>
+            </div>
         </form>
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- USSD Modal (hidden by default) -->
+    <div id="ussd-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>USSD Login</h3>
+            <p>Dial <strong>*123#</strong> and follow the prompts.</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
 </body>
 </html>
