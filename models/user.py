@@ -10,3 +10,4 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     location = db.Column(db.String(200), nullable=False)
     language = db.Column(db.String(10), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())

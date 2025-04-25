@@ -7,36 +7,34 @@ from models.user import db, User
 def signup():
     if request.method == 'POST':
         # Retrieve form data
-        full_name = request.form.get('fullName')
+        name = request.form.get('name')  # Ensure this matches the form field name
         email = request.form.get('email')
         phone = request.form.get('phone')
         password = request.form.get('password')
         confirm_password = request.form.get('confirmPassword')
-        province = request.form.get('province')
-        district = request.form.get('district')
-        community = request.form.get('community')
-        user_type = request.form.get('userType')
-        preferred_language = request.form.get('preferredLanguage')
+        location = request.form.get('location')
+        language = request.form.get('language')
 
         # Validate form data
+        if not name or not email or not phone or not location or not language:
+            flash('All fields are required!', 'error')
+            return redirect(url_for('auth.signup'))
+
         if password != confirm_password:
             flash('Passwords do not match!', 'error')
             return redirect(url_for('auth.signup'))
 
         # Hash the password
-        hashed_password = generate_password_hash(password, method='sha256')
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
         # Save user to the database
         new_user = User(
-            full_name=full_name,
+            name=name,
             email=email,
             phone=phone,
             password=hashed_password,
-            province=province,
-            district=district,
-            community=community,
-            user_type=user_type,
-            preferred_language=preferred_language
+            location=location,
+            language=language
         )
         db.session.add(new_user)
         db.session.commit()
