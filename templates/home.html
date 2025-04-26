@@ -1,58 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta Information -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Marabo Waste Learning</title>
-
-    <!-- Stylesheet -->
+    <title>Home - Marabo Waste Learning</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Marabo Waste Learning</h1>
-            <p>Empowering communities with knowledge for sustainable waste management.</p>
-            <div class="hero-buttons">
-                <a href="/auth/signup" class="btn">Sign Up</a>
-                <a href="/auth/login" class="btn btn-secondary">Log In</a>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="bi bi-recycle me-2"></i>Marabo Waste Learning
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/courses">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/resources">Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/community">Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section bg-light py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Welcome to Marabo Waste Learning</h1>
+                    <p class="lead mb-4">Learn about sustainable waste management practices to create a cleaner Zambia</p>
+                    <div class="d-flex gap-3">
+                        <a href="/courses" class="btn btn-success btn-lg px-4">Start Learning</a>
+                        <a href="/about" class="btn btn-outline-success btn-lg px-4">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <img src="{{ url_for('static', filename='media/ma bin.jpeg') }}" alt="Waste Management" class="img-fluid rounded shadow">
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Features Section -->
-        <section class="features">
-            <h2>Why Choose Us?</h2>
-            <div class="feature-cards">
-                <!-- Feature Card 1 -->
-                <div class="card">
-                    <h3>Learn</h3>
-                    <p>Access resources to learn about effective waste management practices.</p>
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Why Choose Our Platform</h2>
+                <p class="text-muted lead">Empowering Zambians with waste management knowledge</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-4" style="width: 80px; height: 80px; line-height: 80px;">
+                                <i class="bi bi-book fs-3"></i>
+                            </div>
+                            <h3 class="h4">Interactive Courses</h3>
+                            <p class="text-muted">Learn through videos, quizzes, and tutorials in multiple languages including Bemba, Nyanja, and English.</p>
+                            <a href="/courses" class="btn btn-link text-success text-decoration-none">Explore courses <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
                 </div>
-                <!-- Feature Card 2 -->
-                <div class="card">
-                    <h3>Engage</h3>
-                    <p>Join community initiatives to make a difference in your area.</p>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-4" style="width: 80px; height: 80px; line-height: 80px;">
+                                <i class="bi bi-people fs-3"></i>
+                            </div>
+                            <h3 class="h4">Community Engagement</h3>
+                            <p class="text-muted">Connect with others and share best practices for waste management in Zambian communities.</p>
+                            <a href="/community" class="btn btn-link text-success text-decoration-none">Join community <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
                 </div>
-                <!-- Feature Card 3 -->
-                <div class="card">
-                    <h3>Act</h3>
-                    <p>Take actionable steps to reduce, reuse, and recycle waste.</p>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-4" style="width: 80px; height: 80px; line-height: 80px;">
+                                <i class="bi bi-geo-alt fs-3"></i>
+                            </div>
+                            <h3 class="h4">Local Resources</h3>
+                            <p class="text-muted">Access information and solutions tailored specifically for Zambian communities and environments.</p>
+                            <a href="/resources" class="btn btn-link text-success text-decoration-none">View resources <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2025 Marabo Waste Learning. All rights reserved.</p>
+    <!-- Call to Action -->
+    <section class="py-5 bg-success text-white">
+        <div class="container text-center py-4">
+            <h2 class="fw-bold mb-4">Ready to make a difference?</h2>
+            <p class="lead mb-4">Join thousands of Zambians learning how to manage waste sustainably</p>
+            <a href="/courses" class="btn btn-light btn-lg px-4">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-recycle me-2"></i>Marabo Waste Learning</h5>
+                    <p>Empowering Zambians with knowledge for sustainable waste management practices.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="fw-bold mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/about" class="text-white text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="/courses" class="text-white text-decoration-none">Courses</a></li>
+                        <li class="mb-2"><a href="/resources" class="text-white text-decoration-none">Resources</a></li>
+                        <li class="mb-2"><a href="/contact" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="fw-bold mb-3">Connect</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-twitter fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-whatsapp fs-5"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Marabo Waste Learning. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
-    <script src="/static/js/home.js">
-        
-    </script>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/static/js/script.js"></script>
 </body>
 </html>
